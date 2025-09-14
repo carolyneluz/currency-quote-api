@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    # A máquina virtual que será usada para rodar o job
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Faz o checkout do seu código do repositório
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Configura a versão correta do Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # 3. Instala as dependências do projeto de forma otimizada
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Roda os testes (Esta é a etapa de CI - Continuous Integration)
+      - name: Run Tests
+        run: npm test
+
+      # 5. Simula a etapa de "entrega" (Esta é a etapa de CD - Continuous Delivery)
+      - name: Simulate Deploy
+        run: echo "Deploying to production server..."
