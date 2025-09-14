@@ -50,3 +50,8 @@ Returns the simulated exchange rate for a given currency pair.
 **Example Request:**
 ```sh
 GET http://localhost:3000/quote/USD-BRL
+```
+
+## License
+
+This project is licensed under the MIT License.
