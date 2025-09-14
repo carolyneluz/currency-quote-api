@@ -48,3 +48,5 @@ Returns the simulated exchange rate for a given currency pair.
 - **URL Params**: `pair=[string]` (e.g., `USD-BRL`)
 
 **Example Request:**
+```sh
+GET http://localhost:3000/quote/USD-BRL
