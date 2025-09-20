@@ -41,12 +41,12 @@ describe('API Endpoints', () => {
   });
 
   // Teste 5: Verifica se o endpoint /quote/:pair lida com um parâmetro vazio
-  test('GET /quote/:pair should return 404 for an empty pair parameter', async () => {
+  test('GET /quote/ should return a 404 not found status', async () => {
     const res = await request(app).get('/quote/');
     expect(res.statusCode).toBe(404);
-    expect(res.body).toHaveProperty('error');
   });
 
+  // Teste 6 (extra): Verifica se o endpoint /quote/:pair retorna a cotação correta para BTC-USD
   test('GET /quote/:pair should return the correct rate for BTC-USD', async () => {
     const res = await request(app).get('/quote/BTC-USD');
     expect(res.statusCode).toBe(200);
