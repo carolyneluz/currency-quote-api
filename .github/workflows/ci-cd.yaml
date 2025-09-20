@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Simulate Deploy
+        run: echo "Deploying to production server..."
+    
+  notify-discord:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send a Discord notification
+        if: always()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            📢 **[${{ github.repository }}]** - Status do Pipeline:
+            Status: **${{ job.status }}**
+            Commit: `${{ github.sha }}`
+            Autor: ${{ github.actor }}
+            Link: ${{ github.event.compare }}
